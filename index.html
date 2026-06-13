@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ผจญภัยดินแดนแบบรูป (Pattern Adventure) - สื่อการเรียนรู้คณิตศาสตร์ ป.3</title>
+    <meta name="description" content="บทเรียนและเกมอินเตอร์แอคทีฟเรื่องแบบรูป (Patterns) สำหรับนักเรียนชั้นประถมศึกษาปีที่ 3 เรียนรู้ง่าย สนุกสนาน พร้อมเกมฝึกทักษะตามอนุกรมวิธานของบลูม">
+    <meta name="author" content="Pimprakai">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Itim&family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom Style CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- App Container -->
+    <div class="app-container">
+        
+        <!-- Sidebar Navigation (Desktop) -->
+        <aside class="app-sidebar" id="appSidebar">
+            <div class="sidebar-brand">
+                <div class="mascot-avatar">
+                    <svg viewBox="0 0 100 100" class="frog-mascot">
+                        <!-- Head -->
+                        <ellipse cx="50" cy="55" rx="38" ry="32" fill="#A5D6A7"/>
+                        <!-- Cheeks -->
+                        <ellipse cx="22" cy="65" rx="7" ry="5" fill="#FF8A9A" opacity="0.6"/>
+                        <ellipse cx="78" cy="65" rx="7" ry="5" fill="#FF8A9A" opacity="0.6"/>
+                        <!-- Eyes -->
+                        <circle cx="30" cy="30" r="16" fill="#A5D6A7"/>
+                        <circle cx="30" cy="30" r="12" fill="#FFF"/>
+                        <circle cx="32" cy="30" r="6" fill="#1B5E20" class="eye-pupil"/>
+                        <circle cx="28" cy="26" r="3" fill="#FFF"/>
+                        
+                        <circle cx="70" cy="30" r="16" fill="#A5D6A7"/>
+                        <circle cx="70" cy="30" r="12" fill="#FFF"/>
+                        <circle cx="68" cy="30" r="6" fill="#1B5E20" class="eye-pupil"/>
+                        <circle cx="66" cy="26" r="3" fill="#FFF"/>
+                        <!-- Mouth -->
+                        <path d="M 35 60 Q 50 75 65 60" fill="none" stroke="#1B5E20" stroke-width="4" stroke-linecap="round" class="frog-smile"/>
+                        <!-- Crown/Hat (Pastel Yellow) -->
+                        <polygon points="50,10 40,25 60,25" fill="#FFF176" stroke="#FBC02D" stroke-width="1.5"/>
+                        <circle cx="50" cy="8" r="2.5" fill="#FBC02D"/>
+                    </svg>
+                </div>
+                <h1 class="brand-title">กบอ๊บอ๊บพาคู่คิด</h1>
+                <p class="brand-subtitle">ผจญภัยดินแดนแบบรูป</p>
+            </div>
+            
+            <nav class="sidebar-menu">
+                <button class="menu-btn active" data-target="home-section" id="navHomeBtn">
+                    <svg viewBox="0 0 24 24" class="menu-icon"><path fill="currentColor" d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+                    หน้าแรก
+                </button>
+                <button class="menu-btn" data-target="lessons-section" id="navLessonsBtn">
+                    <svg viewBox="0 0 24 24" class="menu-icon"><path fill="currentColor" d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zM5.89 12.5L12 15.82l6.11-3.32L12 9.18 5.89 12.5z"/></svg>
+                    บทเรียนแสนสนุก
+                </button>
+                <button class="menu-btn" data-target="challenges-section" id="navChallengesBtn">
+                    <svg viewBox="0 0 24 24" class="menu-icon"><path fill="currentColor" d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.66 4.39 4.94C8.16 14.83 10.15 16 12 16c1.85 0 3.84-1.17 4.61-3.06C19.08 12.66 21 10.55 21 8V7c0-1.1-.9-2-2-2zM5 8V7h2v3.82C5.84 10.4 5 9.3 5 8zm14 0c0 1.3-.84 2.4-2 2.82V7h2v1zM12 18h-4v2h8v-2h-4z"/></svg>
+                    ภารกิจสุดท้าทาย
+                </button>
+                <button class="menu-btn" data-target="creator-section" id="navCreatorBtn">
+                    <svg viewBox="0 0 24 24" class="menu-icon"><path fill="currentColor" d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+                    โรงงานสร้างสรรค์
+                </button>
+            </nav>
+            
+            <!-- Audio Controller & Settings in Sidebar -->
+            <div class="sidebar-settings">
+                <div class="sound-toggle-container">
+                    <span>เปิดเสียงเอฟเฟกต์</span>
+                    <label class="switch">
+                        <input type="checkbox" id="soundToggle" checked>
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+                <div class="author-credits">
+                    <p>พัฒนาสำหรับชั้น ป.3</p>
+                    <p class="author-name">โดย ครูอ๊บอ๊บ 💚</p>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="app-main">
+            
+            <!-- Mobile Header -->
+            <header class="mobile-header">
+                <div class="mobile-brand">
+                    <h1 class="brand-title">กบอ๊บอ๊บพาคู่คิด</h1>
+                </div>
+                <button class="menu-toggle" id="menuToggle" aria-label="เปิดเมนู">
+                    <svg viewBox="0 0 24 24" class="menu-icon"><path fill="currentColor" d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+                </button>
+            </header>
+
+            <!-- Dashboard / Header Area -->
+            <div class="dashboard-header">
+                <div class="header-welcome">
+                    <h2>สวัสดีเพื่อนๆ ยินดีต้อนรับสู่ดินแดนแบบรูป!</h2>
+                    <p>มาสะสมเหรียญตราอัจฉริยะแบบรูปไปกับน้องกบอ๊บอ๊บกันเถอะ</p>
+                </div>
+                
+                <!-- Badge Dashboard -->
+                <div class="badge-dashboard">
+                    <div class="badge-item locked" id="badge-remembering" title="ขั้นจำ">
+                        <div class="badge-icon">จำ</div>
+                        <span class="badge-label">การจำ</span>
+                    </div>
+                    <div class="badge-item locked" id="badge-understanding" title="ขั้นเข้าใจ">
+                        <div class="badge-icon">เข้าใจ</div>
+                        <span class="badge-label">ความเข้าใจ</span>
+                    </div>
+                    <div class="badge-item locked" id="badge-applying" title="ขั้นนำไปใช้">
+                        <div class="badge-icon">ใช้</div>
+                        <span class="badge-label">การประยุกต์</span>
+                    </div>
+                    <div class="badge-item locked" id="badge-analyzing" title="ขั้นวิเคราะห์">
+                        <div class="badge-icon">คิด</div>
+                        <span class="badge-label">การวิเคราะห์</span>
+                    </div>
+                    <div class="badge-item locked" id="badge-evaluating" title="ขั้นประเมินค่า">
+                        <div class="badge-icon">วัด</div>
+                        <span class="badge-label">การประเมิน</span>
+                    </div>
+                    <div class="badge-item locked" id="badge-creating" title="ขั้นสร้างสรรค์">
+                        <div class="badge-icon">สร้าง</div>
+                        <span class="badge-label">การสร้างสรรค์</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Page Sections Container -->
+            <div class="content-container">
+                
+                <!-- SECTION 1: HOME -->
+                <section id="home-section" class="content-section active">
+                    <div class="hero-card">
+                        <div class="hero-text">
+                            <h3>"แบบรูปแสนสนุกคณิตศาสตร์ ป.3"</h3>
+                            <p>น้องๆ เคยสังเกตไหมว่า สิ่งรอบตัวเรามีการจัดเรียงอย่างเป็นระเบียบ ทั้งสีสัน รูปภาพ และตัวเลข! สิ่งเหล่านี้เรียกว่า <strong>"แบบรูป (Patterns)"</strong> นั่นเอง</p>
+                            <p>ในบทเรียนนี้ เราจะมาผจญภัยสำรวจความลับของแบบรูป และพิชิตด่านตอบคำถามสนุกๆ เพื่อรับเกียรติบัตรสุดเท่ไปครองกันเลย!</p>
+                            <div class="hero-actions">
+                                <button class="btn btn-primary btn-large" id="startJourneyBtn">
+                                    เริ่มการเรียนรู้กันเลย!
+                                    <svg viewBox="0 0 24 24" class="btn-icon"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="hero-mascot-large">
+                            <!-- Large interactive Frog Mascot with animation -->
+                            <div class="frog-large-wrapper">
+                                <svg viewBox="0 0 200 200" class="frog-large">
+                                    <ellipse cx="100" cy="115" rx="76" ry="64" fill="#C8E6C9"/>
+                                    <!-- Cheeks -->
+                                    <ellipse cx="44" cy="130" rx="14" ry="10" fill="#FF8A9A" opacity="0.6"/>
+                                    <ellipse cx="156" cy="130" rx="14" ry="10" fill="#FF8A9A" opacity="0.6"/>
+                                    <!-- Eyes -->
+                                    <circle cx="60" cy="65" r="32" fill="#C8E6C9"/>
+                                    <circle cx="60" cy="65" r="24" fill="#FFF"/>
+                                    <circle cx="64" cy="65" r="12" fill="#1B5E20" class="eye-pupil"/>
+                                    <circle cx="56" cy="57" r="6" fill="#FFF"/>
+                                    
+                                    <circle cx="140" cy="65" r="32" fill="#C8E6C9"/>
+                                    <circle cx="140" cy="65" r="24" fill="#FFF"/>
+                                    <circle cx="136" cy="65" r="12" fill="#1B5E20" class="eye-pupil"/>
+                                    <circle cx="132" cy="57" r="6" fill="#FFF"/>
+                                    
+                                    <!-- Mouth and Tongue -->
+                                    <path d="M 70 125 Q 100 155 130 125" fill="none" stroke="#1B5E20" stroke-width="6" stroke-linecap="round"/>
+                                    
+                                    <!-- Crown -->
+                                    <polygon points="100,20 80,50 120,50" fill="#FFF176" stroke="#FBC02D" stroke-width="2"/>
+                                    <circle cx="100" cy="16" r="5" fill="#FBC02D"/>
+                                </svg>
+                                <div class="frog-bubble">สวัสดีจ้า! กดปุ่มเริ่มเรียนหรือเลือกแท็บด้านข้างได้เลยนะอ๊บ! 🐸💚</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Intro Info Cards -->
+                    <div class="info-grid">
+                        <div class="info-card pastel-green">
+                            <div class="info-icon">💡</div>
+                            <h4>เข้าใจง่าย ได้ฝึกคิด</h4>
+                            <p>สรุปเนื้อหาคณิตศาสตร์ ป.3 เรื่องแบบรูปอย่างเป็นลำดับจากง่ายไปยาก พร้อมรูปประกอบสุดน่ารัก</p>
+                        </div>
+                        <div class="info-card pastel-blue">
+                            <div class="info-icon">🎮</div>
+                            <h4>เกมิฟิเคชันสะสมเหรียญตรา</h4>
+                            <p>ทำแบบฝึกหัดท้าทายระดับสมองเพื่อปลดล็อกเหรียญตราความรู้สะสมแต้มความเก่ง!</p>
+                        </div>
+                        <div class="info-card pastel-pink">
+                            <div class="info-icon">🎨</div>
+                            <h4>เครื่องมือสร้างสรรค์แบบรูป</h4>
+                            <p>ออกแบบแบบรูปในฝันของตนเองด้วยตัวช่วยจัดรูปแบบรูปอย่างอิสระและดาวน์โหลดเกียรติบัตรสุดเจ๋ง</p>
+                        </div>
+                    </div>
+                </section>
+
+
+                <!-- SECTION 2: LESSONS -->
+                <section id="lessons-section" class="content-section">
+                    <div class="section-title-card">
+                        <h3>📚 บทเรียนแบบรูปแสนสนุก (Interactive Lessons)</h3>
+                        <p>เลือกหัวข้อด้านล่างเพื่อเรียนรู้เรื่องแบบรูปชนิดต่างๆ กันเถอะ!</p>
+                    </div>
+
+                    <!-- Lesson Tabs -->
+                    <div class="lesson-tabs">
+                        <button class="tab-btn active" data-tab="lesson-basic" id="tabBasicBtn">1. รู้จักแบบรูป</button>
+                        <button class="tab-btn" data-tab="lesson-numbers" id="tabNumbersBtn">2. แบบรูปของจำนวน</button>
+                        <button class="tab-btn" data-tab="lesson-shapes" id="tabShapesBtn">3. แบบรูปของรูปภาพ</button>
+                        <button class="tab-btn" data-tab="lesson-daily" id="tabDailyBtn">4. แบบรูปในชีวิตจริง</button>
+                    </div>
+
+                    <!-- Lesson Tab Content Area -->
+                    <div class="tab-content-container">
+                        
+                        <!-- Tab 1: Basic Concept -->
+                        <div id="lesson-basic" class="tab-content active">
+                            <div class="lesson-card">
+                                <h3>ความหมายของแบบรูป (What is a Pattern?)</h3>
+                                <p><strong>แบบรูป</strong> คือ การจัดเรียงสิ่งต่างๆ อย่างมีระเบียบ มีความสัมพันธ์ที่เชื่อมโยงกันอย่างเป็นขั้นตอนตามกฎที่กำหนดไว้ล่วงหน้า</p>
+                                
+                                <div class="example-box">
+                                    <h5>🔍 ตัวอย่างแบบรูปอย่างง่าย</h5>
+                                    <p class="subtitle">ลองสังเกตสิ่งของเหล่านี้สิ มีกฎการจัดเรียงอย่างไร?</p>
+                                    
+                                    <!-- Interactive Example: Colors & Shapes -->
+                                    <div class="interactive-pattern-preview" id="basicPatternContainer">
+                                        <div class="pattern-item" data-index="0">○<span class="sub">วงกลม</span></div>
+                                        <div class="pattern-item" data-index="1">□<span class="sub">สี่เหลี่ยม</span></div>
+                                        <div class="pattern-item" data-index="2">○<span class="sub">วงกลม</span></div>
+                                        <div class="pattern-item" data-index="3">□<span class="sub">สี่เหลี่ยม</span></div>
+                                        <div class="pattern-item" data-index="4">○<span class="sub">วงกลม</span></div>
+                                        <div class="pattern-item" data-index="5">□<span class="sub">สี่เหลี่ยม</span></div>
+                                        <div class="pattern-item next-item" id="basicPatternBlank">? <span class="sub">ตัวถัดไปคือ?</span></div>
+                                    </div>
+                                    <div class="pattern-controls">
+                                        <button class="btn btn-secondary" id="revealBasicBtn">เฉลยตัวถัดไป</button>
+                                        <span class="explanation-text" id="basicPatternExplanation" style="display:none;">เก่งมาก! ตัวถัดไปก็คือ <strong>วงกลม (○)</strong> เพราะความสัมพันธ์คือการเรียงสลับกันทีละตัวนั่นเอง!</span>
+                                    </div>
+                                </div>
+
+                                <div class="lesson-text-block">
+                                    <h4>ประเภทของแบบรูปอย่างง่ายสำหรับชั้น ป.3</h4>
+                                    <ul>
+                                        <li><strong>แบบรูปของสี:</strong> เช่น สีเขียว ➔ สีชมพู ➔ สีเขียว ➔ สีชมพู</li>
+                                        <li><strong>แบบรูปของรูปร่าง:</strong> เช่น วงกลม ➔ สามเหลี่ยม ➔ วงกลม ➔ สามเหลี่ยม</li>
+                                        <li><strong>แบบรูปของขนาด:</strong> เช่น เล็ก ➔ ใหญ่ ➔ เล็ก ➔ ใหญ่</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tab 2: Number Patterns -->
+                        <div id="lesson-numbers" class="tab-content">
+                            <div class="lesson-card">
+                                <h3>แบบรูปของจำนวน (Number Patterns)</h3>
+                                <p>แบบรูปของจำนวนคือ ชุดตัวเลขที่มีกฎเกณฑ์ในการเพิ่มขึ้นหรือลดลงอย่างคงที่ มี 2 รูปแบบหลักๆ คือ:</p>
+                                
+                                <div class="number-pattern-types">
+                                    <div class="type-card pastel-green">
+                                        <h4>📈 แบบรูปที่เพิ่มขึ้น</h4>
+                                        <p>เป็นการบวกเพิ่มด้วยจำนวนเดิมซ้ำๆ เช่น เพิ่มขึ้นทีละ 2, ทีละ 5 หรือทีละ 10</p>
+                                        <p class="example-tag">ตัวอย่าง: 5, 10, 15, 20, 25 ... (+5 เสมอ)</p>
+                                    </div>
+                                    <div class="type-card pastel-pink">
+                                        <h4>📉 แบบรูปที่ลดลง</h4>
+                                        <p>เป็นการหักออกหรือลบด้วยจำนวนเดิมซ้ำๆ เช่น ลดลงทีละ 1, ทีละ 3 หรือทีละ 50</p>
+                                        <p class="example-tag">ตัวอย่าง: 30, 27, 24, 21, 18 ... (-3 เสมอ)</p>
+                                    </div>
+                                </div>
+
+                                <!-- Interactive Hop Sandbox -->
+                                <div class="interactive-hop-area">
+                                    <h4>🐰 จำลองการกระโดดของน้องกบอ๊บอ๊บ</h4>
+                                    <p>เลือกกฎการกระโดด แล้วคอยดูการเคลื่อนไหวเพื่อทำความเข้าใจนะ!</p>
+                                    
+                                    <div class="hop-controls">
+                                        <div class="control-group">
+                                            <label for="hopRuleSelect">เลือกกฎของแบบรูป:</label>
+                                            <select id="hopRuleSelect">
+                                                <option value="plus2">เพิ่มขึ้นทีละ 2 (บวก 2)</option>
+                                                <option value="plus5">เพิ่มขึ้นทีละ 5 (บวก 5)</option>
+                                                <option value="minus3">ลดลงทีละ 3 (ลบ 3)</option>
+                                            </select>
+                                        </div>
+                                        <button class="btn btn-primary" id="startHopBtn">กระโดดเลย! อ๊บ!</button>
+                                    </div>
+
+                                    <!-- Canvas Number Line and Frog Animation -->
+                                    <div class="canvas-wrapper">
+                                        <canvas id="numberLineCanvas" width="700" height="200"></canvas>
+                                    </div>
+                                    
+                                    <div class="hop-result-display" id="hopResultText">
+                                        กดปุ่ม <strong>"กระโดดเลย!"</strong> ด้านบนเพื่อดูตัวอย่างแบบรูปจำนวนจ้า
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tab 3: Shape Patterns -->
+                        <div id="lesson-shapes" class="tab-content">
+                            <div class="lesson-card">
+                                <h3>แบบรูปของรูปภาพและเรขาคณิต (Shape Patterns)</h3>
+                                <p>การจัดเรียงรูปภาพหรือรูปเรขาคณิตจะแบ่งความสัมพันธ์ออกเป็นหลายลักษณะ เช่น แบบรูปสลับรูปทรง แบบรูปสลับสี หรือแบบรูปที่มีขนาด/ปริมาณเพิ่มขึ้นอย่างมีทิศทาง</p>
+
+                                <div class="shape-pattern-showcase">
+                                    <div class="showcase-item">
+                                        <h5>1. แบบรูปซ้ำสลับกัน (Repeating Patterns)</h5>
+                                        <p>รูปภาพชุดเดิมจะปรากฏซ้ำเป็นชุดๆ</p>
+                                        <div class="shape-line animate-pulse">
+                                            <span>▲</span> <span>■</span> <span>▲</span> <span>■</span> <span>▲</span> <span>■</span> <span class="blank">?</span>
+                                        </div>
+                                        <p class="sub-desc">กฎคือการทำซ้ำชุดสมาชิก **[สามเหลี่ยม, สี่เหลี่ยม]**</p>
+                                    </div>
+
+                                    <div class="showcase-item">
+                                        <h5>2. แบบรูปพัฒนา/เพิ่มขึ้น (Growing Patterns)</h5>
+                                        <p>มีการเพิ่มจำนวนหรือขนาดของชิ้นส่วนขึ้นเรื่อยๆ</p>
+                                        <div class="shape-line animate-pulse">
+                                            <span>★</span> <span>★★</span> <span>★★★</span> <span class="blank">?</span>
+                                        </div>
+                                        <p class="sub-desc">กฎคือการเพิ่มจำนวนดาวขึ้นแถวละ 1 ดวงในแต่ละขั้น (ตัวถัดไปคือดาว 4 ดวง)</p>
+                                    </div>
+                                </div>
+
+                                <div class="interactive-shape-sandbox">
+                                    <h4>ลองคลิกเลือกรูปภาพถัดไปให้เข้ากับแบบรูป</h4>
+                                    <div class="shape-quiz-question">
+                                        <div class="shape-line" id="lessonShapeQuestion">
+                                            <span class="shape-circle-blue"></span>
+                                            <span class="shape-square-orange"></span>
+                                            <span class="shape-circle-blue"></span>
+                                            <span class="shape-square-orange"></span>
+                                            <span class="shape-circle-blue"></span>
+                                            <span class="question-mark">?</span>
+                                        </div>
+                                        
+                                        <div class="shape-options">
+                                            <button class="shape-opt-btn" id="shapeOpt1" data-val="circle">
+                                                <span class="shape-circle-blue"></span>
+                                            </button>
+                                            <button class="shape-opt-btn" id="shapeOpt2" data-val="square">
+                                                <span class="shape-square-orange"></span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div id="lessonShapeFeedback" class="feedback-text text-center"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tab 4: Daily Life Patterns -->
+                        <div id="lesson-daily" class="tab-content">
+                            <div class="lesson-card">
+                                <h3>แบบรูปในชีวิตประจำวัน (Patterns in Daily Life)</h3>
+                                <p>ถ้าเราลองเปิดตากว้างขึ้นและสังเกตรอบๆ ตัว จะเห็นว่ามีแบบรูปซ่อนอยู่ในสิ่งต่างๆ มากมาย ทั้งสิ่งที่มนุษย์สร้างขึ้นและในธรรมชาติ!</p>
+                                
+                                <div class="daily-patterns-grid">
+                                    <div class="daily-card">
+                                        <div class="daily-visual textile-pattern"></div>
+                                        <h4>ลายผ้าและสิ่งทอ</h4>
+                                        <p>เช่น ลายกระเบื้องตารางหมากรุก ลายผ้าถุง ลายจุดบนชุดกระโปรง ที่มีความถี่สลับกันอย่างลงตัว</p>
+                                    </div>
+                                    <div class="daily-card">
+                                        <div class="daily-visual tile-pattern"></div>
+                                        <h4>สถาปัตยกรรมและกระเบื้อง</h4>
+                                        <p>การปูกระเบื้องปูพื้นสลับสี สลับรูปทรงเรขาคณิต ช่วยสร้างความงามและเป็นระเบียบเรียบร้อย</p>
+                                    </div>
+                                    <div class="daily-card">
+                                        <div class="daily-visual nature-pattern"></div>
+                                        <h4>มหัศจรรย์แห่งธรรมชาติ</h4>
+                                        <p>แบบรูปก้นหอยของลูกสน ลายขวางของเสือโคร่ง ลวดลายระเบียบของรังผึ้ง หรือกลีบดอกไม้</p>
+                                    </div>
+                                </div>
+
+                                <div class="daily-interactive-find">
+                                    <h4>💡 กิจกรรมชวนคิด: สังเกตแบบรูปของ "สัปดาห์และเดือน"</h4>
+                                    <p>วันใน 1 สัปดาห์ก็มีแบบรูปนะ! จันทร์ ➔ อังคาร ➔ พุธ ➔ พฤหัสบดี ➔ ศุกร์ ➔ เสาร์ ➔ อาทิตย์ แล้วก็วนกลับมาที่วันจันทร์ใหม่เสมอตลอดไป</p>
+                                    <p class="quote-text">"การเข้าใจแบบรูปช่วยให้เราคาดเดาและแก้ปัญหาในชีวิตประจำวันได้อย่างมีระบบมากขึ้น เช่น การจัดตารางเวรทำงาน หรือการออกแบบลวดลายสิ่งของ"</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+
+                <!-- SECTION 3: CHALLENGES (BLOOM'S TAXONOMY) -->
+                <section id="challenges-section" class="content-section">
+                    <div class="section-title-card">
+                        <h3>🏆 ฐานปฏิบัติการภารกิจแบบรูป (Bloom's Taxonomy Quiz)</h3>
+                        <p>ด่านท้าทายระดับสมอง 6 ขั้นตามทฤษฎีบลูม สะสมเหรียญตราไปอวดเพื่อนๆ กันเลย!</p>
+                    </div>
+
+                    <!-- Level Selector / Progress Map -->
+                    <div class="challenge-map" id="challengeMap">
+                        <button class="map-node active" data-level="1" id="level1Node">
+                            <span class="node-num">1</span>
+                            <span class="node-label">ขั้นจำ</span>
+                        </button>
+                        <button class="map-node disabled" data-level="2" id="level2Node">
+                            <span class="node-num">2</span>
+                            <span class="node-label">ขั้นเข้าใจ</span>
+                        </button>
+                        <button class="map-node disabled" data-level="3" id="level3Node">
+                            <span class="node-num">3</span>
+                            <span class="node-label">ขั้นนำไปใช้</span>
+                        </button>
+                        <button class="map-node disabled" data-level="4" id="level4Node">
+                            <span class="node-num">4</span>
+                            <span class="node-label">ขั้นวิเคราะห์</span>
+                        </button>
+                        <button class="map-node disabled" data-level="5" id="level5Node">
+                            <span class="node-num">5</span>
+                            <span class="node-label">ขั้นประเมินค่า</span>
+                        </button>
+                        <button class="map-node disabled" data-level="6" id="level6Node">
+                            <span class="node-num">6</span>
+                            <span class="node-label">ขั้นสร้างสรรค์</span>
+                        </button>
+                    </div>
+
+                    <!-- Challenge Content Display Area -->
+                    <div class="challenge-card" id="challengeCard">
+                        
+                        <!-- Level 1: Remembering -->
+                        <div class="level-content active" id="level-content-1">
+                            <div class="level-header">
+                                <span class="badge-tag Remembering">ขั้นที่ 1: Remembering (จำ)</span>
+                                <h4>เติมจำนวนที่หายไปในแบบรูปที่กำหนด</h4>
+                            </div>
+                            
+                            <div class="question-container text-center">
+                                <p class="question-prompt">จำนวนในช่องว่างคือตัวเลขใด?</p>
+                                <div class="pattern-display numbers">
+                                    <span>2</span> <span>4</span> <span>6</span> <span class="blank">?</span>
+                                </div>
+                                
+                                <div class="quiz-input-area">
+                                    <label for="level1Answer">เติมคำตอบ:</label>
+                                    <input type="number" id="level1Answer" class="quiz-input" placeholder="พิมพ์ตัวเลขตรงนี้">
+                                </div>
+                            </div>
+
+                            <div class="level-actions">
+                                <button class="btn btn-primary" id="level1SubmitBtn">ส่งคำตอบ</button>
+                            </div>
+                            <div class="feedback-area" id="level1Feedback"></div>
+                        </div>
+
+                        <!-- Level 2: Understanding -->
+                        <div class="level-content" id="level-content-2">
+                            <div class="level-header">
+                                <span class="badge-tag Understanding">ขั้นที่ 2: Understanding (เข้าใจ)</span>
+                                <h4>อธิบายกฎความสัมพันธ์ของแบบรูป</h4>
+                            </div>
+                            
+                            <div class="question-container">
+                                <p class="question-prompt">พิจารณาแบบรูปของจำนวนต่อไปนี้: <strong>10, 20, 30, 40</strong> กฎของความสัมพันธ์นี้คือข้อใด?</p>
+                                
+                                <div class="choice-list">
+                                    <label class="choice-item">
+                                        <input type="radio" name="level2Answer" value="A" id="l2OptA">
+                                        <span class="choice-text">ลดลงทีละ 10</span>
+                                    </label>
+                                    <label class="choice-item">
+                                        <input type="radio" name="level2Answer" value="B" id="l2OptB">
+                                        <span class="choice-text">เพิ่มขึ้นทีละ 10</span>
+                                    </label>
+                                    <label class="choice-item">
+                                        <input type="radio" name="level2Answer" value="C" id="l2OptC">
+                                        <span class="choice-text">บวกเพิ่มทีละ 5</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="level-actions">
+                                <button class="btn btn-primary" id="level2SubmitBtn">ส่งคำตอบ</button>
+                            </div>
+                            <div class="feedback-area" id="level2Feedback"></div>
+                        </div>
+
+                        <!-- Level 3: Applying -->
+                        <div class="level-content" id="level-content-3">
+                            <div class="level-header">
+                                <span class="badge-tag Applying">ขั้นที่ 3: Applying (นำไปใช้)</span>
+                                <h4>เติมรูปภาพที่หายไปในระบบแบบรูป</h4>
+                            </div>
+                            
+                            <div class="question-container text-center">
+                                <p class="question-prompt">พิจารณาแบบรูปด้านล่าง รูปในช่องว่างเครื่องหมายคำถามควรเป็นรูปใด?</p>
+                                
+                                <div class="pattern-display-shapes">
+                                    <span class="shape-circle-pink"></span>
+                                    <span class="shape-square-blue"></span>
+                                    <span class="shape-circle-pink"></span>
+                                    <span class="shape-square-blue"></span>
+                                    <span class="blank">?</span>
+                                </div>
+
+                                <div class="shape-options-applying">
+                                    <button class="applying-opt-btn" data-val="circle" id="l3OptCircle">
+                                        <span class="shape-circle-pink"></span>
+                                        <span class="label">วงกลมสีชมพู</span>
+                                    </button>
+                                    <button class="applying-opt-btn" data-val="square" id="l3OptSquare">
+                                        <span class="shape-square-blue"></span>
+                                        <span class="label">สี่เหลี่ยมสีฟ้า</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="level-actions">
+                                <button class="btn btn-primary" id="level3SubmitBtn">ส่งคำตอบ</button>
+                            </div>
+                            <div class="feedback-area" id="level3Feedback"></div>
+                        </div>
+
+                        <!-- Level 4: Analyzing -->
+                        <div class="level-content" id="level-content-4">
+                            <div class="level-header">
+                                <span class="badge-tag Analyzing">ขั้นที่ 4: Analyzing (วิเคราะห์)</span>
+                                <h4>วิเคราะห์ความสัมพันธ์และจับคู่แบบรูปที่ถูกต้อง</h4>
+                            </div>
+                            
+                            <div class="question-container">
+                                <p class="question-prompt">พิจารณาแบบรูปของจำนวน: <strong>3, 6, 9, 12</strong> ตัวเลข 2 ตัวถัดไปจะมีค่ารวมกันได้เท่าใด? (ใบ้ให้: หาสมาชิกอีก 2 ตัวถัดไปก่อนแล้วนำมาบวกกัน)</p>
+                                
+                                <div class="choice-list">
+                                    <label class="choice-item">
+                                        <input type="radio" name="level4Answer" value="A" id="l4OptA">
+                                        <span class="choice-text">27 (มาจาก 13 บวก 14)</span>
+                                    </label>
+                                    <label class="choice-item">
+                                        <input type="radio" name="level4Answer" value="B" id="l4OptB">
+                                        <span class="choice-text">33 (มาจาก 15 บวก 18)</span>
+                                    </label>
+                                    <label class="choice-item">
+                                        <input type="radio" name="level4Answer" value="C" id="l4OptC">
+                                        <span class="choice-text">30 (มาจาก 14 บวก 16)</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="level-actions">
+                                <button class="btn btn-primary" id="level4SubmitBtn">ส่งคำตอบ</button>
+                            </div>
+                            <div class="feedback-area" id="level4Feedback"></div>
+                        </div>
+
+                        <!-- Level 5: Evaluating -->
+                        <div class="level-content" id="level-content-5">
+                            <div class="level-header">
+                                <span class="badge-tag Evaluating">ขั้นที่ 5: Evaluating (ประเมินค่า)</span>
+                                <h4>ตรวจสอบความถูกต้องของคำตอบเพื่อน</h4>
+                            </div>
+                            
+                            <div class="question-container">
+                                <div class="peer-review-card">
+                                    <div class="peer-avatar">
+                                        <!-- Frog Lilly avatar -->
+                                        <svg viewBox="0 0 100 100" class="peer-frog">
+                                            <circle cx="50" cy="50" r="45" fill="#E8F5E9" stroke="#A5D6A7" stroke-width="2"/>
+                                            <ellipse cx="50" cy="55" rx="30" ry="24" fill="#A5D6A7"/>
+                                            <circle cx="35" cy="35" r="10" fill="#A5D6A7"/>
+                                            <circle cx="35" cy="35" r="7" fill="#FFF"/>
+                                            <circle cx="36" cy="35" r="3.5" fill="#1B5E20"/>
+                                            <circle cx="65" cy="35" r="10" fill="#A5D6A7"/>
+                                            <circle cx="65" cy="35" r="7" fill="#FFF"/>
+                                            <circle cx="64" cy="35" r="3.5" fill="#1B5E20"/>
+                                            <path d="M 40 62 Q 50 70 60 62" fill="none" stroke="#1B5E20" stroke-width="3" stroke-linecap="round"/>
+                                            <rect x="42" y="20" width="16" height="6" fill="#FF8A9A" rx="3"/>
+                                        </svg>
+                                        <span class="peer-name">น้องลิลลี่ (เพื่อนร่วมชั้น)</span>
+                                    </div>
+                                    <div class="peer-statement">
+                                        <p>"ลิลลี่บอกว่า: ในแบบรูปของจำนวน <strong>5, 8, 11, 14, ...</strong> จำนวนถัดไปก็คือ <strong>18</strong> จ้า"</p>
+                                    </div>
+                                </div>
+
+                                <p class="question-prompt mt-4">น้องๆ ประเมินคำกล่าวของลิลลี่ว่าถูกต้องหรือไม่ และให้เหตุผลอย่างไร?</p>
+                                
+                                <div class="choice-list">
+                                    <label class="choice-item">
+                                        <input type="radio" name="level5Answer" value="A" id="l5OptA">
+                                        <span class="choice-text"><strong>ถูกต้อง</strong> เพราะเป็นตัวเลขคู่ที่สวยงามและใกล้เคียงกัน</span>
+                                    </label>
+                                    <label class="choice-item">
+                                        <input type="radio" name="level5Answer" value="B" id="l5OptB">
+                                        <span class="choice-text"><strong>ผิด</strong> เพราะความสัมพันธ์คือเพิ่มทีละ 3 ดังนั้นจำนวนถัดไปต้องเป็น 17 (14 + 3)</span>
+                                    </label>
+                                    <label class="choice-item">
+                                        <input type="radio" name="level5Answer" value="C" id="l5OptC">
+                                        <span class="choice-text"><strong>ผิด</strong> เพราะความสัมพันธ์คือเพิ่มทีละ 4 ดังนั้นจำนวนถัดไปต้องเป็น 18</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="level-actions">
+                                <button class="btn btn-primary" id="level5SubmitBtn">ส่งคำตอบ</button>
+                            </div>
+                            <div class="feedback-area" id="level5Feedback"></div>
+                        </div>
+
+                        <!-- Level 6: Creating -->
+                        <div class="level-content" id="level-content-6">
+                            <div class="level-header">
+                                <span class="badge-tag Creating">ขั้นที่ 6: Creating (สร้างสรรค์)</span>
+                                <h4>ยินดีต้อนรับสู่ด่านสร้างสรรค์!</h4>
+                            </div>
+                            <p>ด่านสุดท้ายเป็นด่านพิเศษ! น้องๆ ต้องเข้าไปออกแบบแบบรูปของตัวเองที่ **"โรงงานสร้างสรรค์"** เพื่อทดลองวาดเกียรติบัตรเกียรติยศกันได้เลยอ๊บ!</p>
+                            <div class="level-actions justify-center">
+                                <button class="btn btn-success btn-large" id="goToCreatorBtn">
+                                    เปิดโรงงานสร้างสรรค์ทันที!
+                                    <svg viewBox="0 0 24 24" class="btn-icon"><path fill="currentColor" d="M12 3v9.28a4.39 4.39 0 0 0-1.5-.28 4.5 4.5 0 1 0 4.5 4.5V3h-3z"/></svg>
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+
+                <!-- SECTION 4: CREATOR (PATTERN CREATOR & CERTIFICATE) -->
+                <section id="creator-section" class="content-section">
+                    <div class="section-title-card">
+                        <h3>🎨 โรงงานสร้างสรรค์แบบรูป (Pattern Sandbox & Creator)</h3>
+                        <p>มาสนุกกับการสร้างสรรค์แบบรูปสไตล์ของน้องๆ เอง แล้วปริ้นเกียรติบัตรสุดน่ารักเก็บไว้กันเถอะ!</p>
+                    </div>
+
+                    <div class="creator-layout">
+                        
+                        <!-- Design Controls Panel -->
+                        <div class="creator-controls-panel">
+                            <h4>🛠️ เครื่องมือออกแบบ</h4>
+                            
+                            <!-- 1. Select Pattern Type -->
+                            <div class="creator-control-group">
+                                <h5>1. ประเภทแบบรูป</h5>
+                                <div class="button-toggle-group">
+                                    <button class="toggle-btn active" id="creatorTypeShape" data-type="shapes">รูปทรงเรขาคณิต</button>
+                                    <button class="toggle-btn" id="creatorTypeNumber" data-type="numbers">ชุดตัวเลข</button>
+                                </div>
+                            </div>
+
+                            <!-- 2. Interactive Tool Options (Dependent on type) -->
+                            <!-- Shapes config -->
+                            <div class="creator-sub-options" id="creatorShapeConfig">
+                                <h5>2. เลือกรูปทรงที่จะวาง (คลิกเพื่อจัดเรียง)</h5>
+                                <div class="palette-grid">
+                                    <button class="palette-item item-circle" data-shape="circle" title="วงกลม">●</button>
+                                    <button class="palette-item item-square" data-shape="square" title="สี่เหลี่ยม">■</button>
+                                    <button class="palette-item item-triangle" data-shape="triangle" title="สามเหลี่ยม">▲</button>
+                                    <button class="palette-item item-star" data-shape="star" title="ดาว">★</button>
+                                    <button class="palette-item item-heart" data-shape="heart" title="หัวใจ">❤</button>
+                                </div>
+                                
+                                <h5 class="mt-4">3. เลือกสีพาสเทลประดับ</h5>
+                                <div class="palette-grid-colors">
+                                    <button class="color-item color-pink active" data-color="pink" style="background-color: #FF8A9A;"></button>
+                                    <button class="color-item color-blue" data-color="blue" style="background-color: #64B5F6;"></button>
+                                    <button class="color-item color-yellow" data-color="yellow" style="background-color: #FFF176;"></button>
+                                    <button class="color-item color-green" data-color="green" style="background-color: #81C784;"></button>
+                                    <button class="color-item color-purple" data-color="purple" style="background-color: #BA68C8;"></button>
+                                </div>
+                            </div>
+
+                            <!-- Numbers config -->
+                            <div class="creator-sub-options" id="creatorNumberConfig" style="display:none;">
+                                <h5>2. กำหนดเงื่อนไขตัวเลข</h5>
+                                <div class="form-group-creator">
+                                    <label for="numStart">ตัวเลขเริ่มต้น:</label>
+                                    <input type="number" id="numStart" value="5" min="1" max="100">
+                                </div>
+                                <div class="form-group-creator mt-2">
+                                    <label for="numInterval">กฎผลต่าง (ทีละ):</label>
+                                    <input type="number" id="numInterval" value="5" min="1" max="50">
+                                </div>
+                                <div class="form-group-creator mt-2">
+                                    <label for="numDirection">ทิศทาง:</label>
+                                    <select id="numDirection">
+                                        <option value="up">เพิ่มขึ้น (+)</option>
+                                        <option value="down">ลดลง (-)</option>
+                                    </select>
+                                </div>
+                                <button class="btn btn-secondary mt-3 w-100" id="generateNumPatternBtn">สร้างชุดตัวเลข</button>
+                            </div>
+
+                            <!-- 3. Write Rule -->
+                            <div class="creator-control-group mt-4">
+                                <h5>📝 อธิบายกฎของแบบรูป</h5>
+                                <input type="text" id="creatorRuleInput" placeholder="เช่น เพิ่มทีละ 5 หรือ ลายสลับวงกลมและดาว" class="rule-input">
+                            </div>
+
+                            <!-- Action buttons -->
+                            <div class="creator-actions">
+                                <button class="btn btn-danger" id="clearCreatorBtn">ล้างหน้าจอ</button>
+                                <button class="btn btn-success" id="generateCertBtn">รับใบเกียรติบัตรเกียรติยศ 🏆</button>
+                            </div>
+                        </div>
+
+                        <!-- Canvas / Sandbox Preview Panel -->
+                        <div class="creator-preview-panel">
+                            <h4>🎨 ผืนผ้าใบแสดงแบบรูปของฉัน</h4>
+                            <div class="sandbox-canvas" id="sandboxCanvas">
+                                <p class="placeholder-text" id="sandboxPlaceholder">ยังไม่มีลายแบบรูป ลองคลิกเลือกรูปแบบหรือสีด้านซ้ายเพื่อแต่งเติมนะอ๊บ!</p>
+                                <!-- Placed items will go here dynamically -->
+                            </div>
+                            
+                            <div class="sandbox-rule-display" id="sandboxRuleDisplay">
+                                <strong>กฎความสัมพันธ์:</strong> <span id="currentRuleText">ยังไม่ได้กำหนดกฎ</span>
+                            </div>
+
+                            <!-- Success unlock alert for Creating level -->
+                            <div class="creating-badge-alert" id="creatingBadgeAlert" style="display:none;">
+                                <div class="alert-icon">🎉</div>
+                                <div class="alert-text">
+                                    <h5>คุณปลดล็อกเหรียญตรา "ขั้นสร้างสรรค์" แล้ว!</h5>
+                                    <p>พิมพ์ชื่อของคุณด้านล่างเพื่อรับเกียรติบัตรฉบับสมบูรณ์ได้เลย</p>
+                                    <div class="cert-name-input-area">
+                                        <input type="text" id="studentNameInput" placeholder="พิมพ์ชื่อ-นามสกุล ของน้องๆ" class="cert-name-input">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+            </div>
+
+            <!-- Toast Notification Area -->
+            <div class="toast-container" id="toastContainer"></div>
+
+            <!-- Modal for Certificate Render and Download -->
+            <div class="modal-overlay" id="certModal">
+                <div class="modal-card">
+                    <button class="modal-close" id="closeCertModal">&times;</button>
+                    <h3>🏆 ใบเกียรติบัตรยอดนักคิดคณิตศาสตร์</h3>
+                    <p class="modal-subtitle">ดาวน์โหลดหรือพิมพ์ผลงานแบบรูปแสนสร้างสรรค์ของน้องๆ ได้เลยจ้า</p>
+                    
+                    <div class="cert-render-box">
+                        <canvas id="certCanvas" width="600" height="424"></canvas>
+                    </div>
+                    
+                    <div class="modal-actions">
+                        <button class="btn btn-secondary" id="printCertBtn">พิมพ์ใบเกียรติบัตร</button>
+                        <button class="btn btn-success" id="downloadCertBtn">ดาวน์โหลดรูปภาพ (.PNG)</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer credits -->
+            <footer class="app-footer">
+                <p>&copy; 2026 สื่อการเรียนรู้วิชาคณิตศาสตร์ ป.3 เรื่องแบบรูป (Patterns). สิทธิ์การใช้งานเพื่อการศึกษา.</p>
+            </footer>
+        </main>
+    </div>
+
+    <!-- Script App JS -->
+    <script src="app.js"></script>
+</body>
+</html>
